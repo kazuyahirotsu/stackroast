@@ -6,7 +6,6 @@ import TechLogo from './TechLogo';
 export default function TechSelector({ options, value, onChange, allowCustom = true }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [customValue, setCustomValue] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
   
   useEffect(() => {
@@ -23,7 +22,6 @@ export default function TechSelector({ options, value, onChange, allowCustom = t
   const handleOptionSelect = (option) => {
     onChange(option);
     setShowDropdown(false);
-    setSearchTerm("");
   };
   
   const handleCustomSubmit = () => {
@@ -33,11 +31,6 @@ export default function TechSelector({ options, value, onChange, allowCustom = t
       setShowDropdown(false);
     }
   };
-  
-  // Filter options based on search term
-  const filteredOptions = options.filter(option => 
-    option.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -57,21 +50,9 @@ export default function TechSelector({ options, value, onChange, allowCustom = t
       
       {showDropdown && (
         <div className="absolute z-10 mt-1 w-full bg-base-100 rounded-md shadow-lg border border-base-300 animate-slideDown">
-          <div className="p-2">
-            <input 
-              type="text"
-              className="input input-sm input-bordered w-full bg-base-100"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-              autoFocus
-            />
-          </div>
-          
           <div className="max-h-64 overflow-y-auto">
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((option) => (
+            {options.length > 0 ? (
+              options.map((option) => (
                 <div 
                   key={option}
                   className="px-3 py-2 hover:bg-base-200 cursor-pointer flex items-center gap-2"
@@ -82,7 +63,7 @@ export default function TechSelector({ options, value, onChange, allowCustom = t
                 </div>
               ))
             ) : (
-              <div className="px-3 py-2 text-sm opacity-70">No options found</div>
+              <div className="px-3 py-2 text-sm opacity-70">No options available</div>
             )}
           </div>
           

@@ -6,12 +6,12 @@ import TechSelector from "./TechSelector";
 
 // Tech stack options for each category
 const TECH_OPTIONS = {
-  frontend: ["React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt", "Remix", "jQuery", "Vanilla JS"],
+  frontend: ["React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt", "jQuery", "Vanilla JS", "Remix"],
   backend: ["Node.js", "Express", "Django", "Flask", "Ruby on Rails", "Laravel", "Spring Boot", "FastAPI", "Go"],
   database: ["Supabase", "PostgreSQL", "MySQL", "MongoDB", "Firebase", "DynamoDB", "SQLite", "Redis", "CouchDB"],
-  auth: ["Supabase Auth", "NextAuth.js", "Auth0", "Firebase Auth", "Clerk", "Cognito", "Custom JWT", "OAuth", "Magic Link"],
-  hosting: ["Vercel", "Netlify", "AWS", "GCP", "Azure", "Digital Ocean", "Heroku", "Render", "Railway"],
-  styling: ["Tailwind CSS", "CSS Modules", "Styled Components", "Emotion", "SASS/SCSS", "MUI", "Chakra UI", "Bootstrap"]
+  auth: ["Supabase Auth", "NextAuth.js", "Firebase Auth", "OAuth", "Auth0", "Clerk", "Cognito", "Custom JWT", "Magic Link"],
+  hosting: ["Vercel", "Netlify", "AWS", "GCP", "Azure", "Digital Ocean", "Heroku", "Railway", "Render"],
+  styling: ["Tailwind CSS", "MUI", "Bootstrap", "CSS Modules", "Styled Components", "Emotion", "SASS/SCSS", "Chakra UI"]
 };
 
 // Icons for each category with fire theme colors

@@ -37,6 +37,7 @@ const ICON_MAP = {
   'supabase': 'devicon-supabase-plain',
   'supabaseauth': 'devicon-supabase-plain',
   'firebaseauth': 'devicon-firebase-plain',
+  'firebase': 'devicon-firebase-plain',
   'sqlite': 'devicon-sqlite-plain',
   'redis': 'devicon-redis-plain',
   'tailwindcss': 'devicon-tailwindcss-plain',
