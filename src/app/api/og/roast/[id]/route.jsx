@@ -82,6 +82,28 @@ function getTechIconUrl(tech) {
   return TECH_ICON_URLS[key] || null;
 }
 
+// Define ordered categories to ensure consistent display
+const CATEGORY_ORDER = [
+  'frontend',
+  'backend',
+  'database',
+  'auth',
+  'hosting',
+  'styling',
+  'misc'
+];
+
+// Define border colors for each category
+const categoryColors = {
+  frontend: 'rgba(255, 107, 107, 0.3)',   // Red-ish
+  backend: 'rgba(129, 230, 217, 0.3)',    // Teal-ish
+  database: 'rgba(144, 190, 255, 0.3)',   // Blue-ish
+  auth: 'rgba(233, 168, 255, 0.3)',       // Purple-ish
+  hosting: 'rgba(255, 213, 128, 0.3)',    // Yellow-ish
+  styling: 'rgba(132, 204, 145, 0.3)',    // Green-ish
+  misc: 'rgba(200, 200, 200, 0.3)',       // Gray for misc/additional tools
+};
+
 export async function GET(request, props) {
   try {
     const params = await props.params;
@@ -105,15 +127,35 @@ export async function GET(request, props) {
     const contentLines = roast.content.split('\n').filter(line => line.trim() !== '');
     const title = contentLines[0].replace(/^#\s+/, '');
     
-    // Get excerpt (next 1-2 lines after title, up to 120 chars)
+    // Get excerpt (next 1-2 lines after title, up to 100 chars)
     let excerpt = '';
     if (contentLines.length > 1) {
-      excerpt = contentLines.slice(1, 3).join(' ').slice(0, 120);
-      if (excerpt.length === 120) excerpt += '...';
+      excerpt = contentLines.slice(1, 3).join(' ').slice(0, 100);
+      if (excerpt.length === 100) excerpt += '...';
     }
     
     // Get tech stack details
     const stack = roast.stacks;
+    
+    // Get ordered stack items based on CATEGORY_ORDER
+    const orderedStackItems = [];
+    
+    // First add items in the defined order
+    for (const category of CATEGORY_ORDER) {
+      if (stack[category] && typeof stack[category] === 'string') {
+        orderedStackItems.push([category, stack[category]]);
+      }
+    }
+    
+    // Then add any remaining items that weren't in our predefined order
+    Object.entries(stack)
+      .filter(([key, value]) => 
+        value && 
+        typeof value === 'string' &&
+        !CATEGORY_ORDER.includes(key) && 
+        !['id', 'created_at', 'roast_id'].includes(key)
+      )
+      .forEach(item => orderedStackItems.push(item));
     
     return new ImageResponse(
       (
@@ -148,7 +190,7 @@ export async function GET(request, props) {
           }}>
             {/* Title */}
             <h1 style={{ 
-              fontSize: '48px', 
+              fontSize: '42px', 
               fontWeight: 'bold',
               margin: '0 0 20px 0',
               color: '#ff6b6b',
@@ -157,98 +199,57 @@ export async function GET(request, props) {
               {title}
             </h1>
             
-            {/* Excerpt */}
+            {/* Excerpt - shorter to make room for more stack items */}
             {excerpt && (
               <p style={{ 
-                fontSize: '28px', 
+                fontSize: '24px', 
                 lineHeight: 1.4,
                 opacity: 0.9,
-                margin: '0 0 30px 0',
+                margin: '0 0 25px 0',
                 fontStyle: 'italic',
               }}>
                 "{excerpt}"
               </p>
             )}
             
-            {/* Tech stack with logos - now with colored icons */}
+            {/* Tech stack with logos - in order matching home page */}
             <div style={{ 
-              marginTop: 'auto',
+              marginTop: '15px',
               display: 'flex',
-              gap: '16px',
+              gap: '12px',
               flexWrap: 'wrap',
               justifyContent: 'flex-start',
             }}>
-              {stack.frontend && (
-                <div style={{ 
+              {/* Render all stack items in the defined order */}
+              {orderedStackItems.map(([category, tech]) => (
+                <div key={category} style={{ 
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '10px 16px',
-                  background: 'rgba(30, 30, 30, 0.8)', // Darker background for colored icons
+                  padding: '8px 12px',
+                  background: 'rgba(30, 30, 30, 0.8)',
                   borderRadius: '8px',
-                  maxWidth: '250px',
-                  border: '1px solid rgba(255, 107, 107, 0.3)',
+                  maxWidth: '180px',
+                  border: `1px solid ${categoryColors[category] || 'rgba(200, 200, 200, 0.3)'}`,
                 }}>
-                  {getTechIconUrl(stack.frontend) ? (
+                  {getTechIconUrl(tech) ? (
                     <img 
-                      src={getTechIconUrl(stack.frontend)} 
-                      width="24" 
-                      height="24" 
+                      src={getTechIconUrl(tech)} 
+                      width="20" 
+                      height="20" 
                     />
                   ) : null}
-                  <span style={{ fontSize: '18px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    {stack.frontend}
+                  <span style={{ 
+                    fontSize: '16px', 
+                    textOverflow: 'ellipsis', 
+                    overflow: 'hidden', 
+                    whiteSpace: 'nowrap',
+                    maxWidth: '150px',
+                  }}>
+                    {tech}
                   </span>
                 </div>
-              )}
-              
-              {stack.backend && (
-                <div style={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 16px',
-                  background: 'rgba(30, 30, 30, 0.8)', // Darker background
-                  borderRadius: '8px',
-                  maxWidth: '250px',
-                  border: '1px solid rgba(129, 230, 217, 0.3)',
-                }}>
-                  {getTechIconUrl(stack.backend) ? (
-                    <img 
-                      src={getTechIconUrl(stack.backend)} 
-                      width="24" 
-                      height="24" 
-                    />
-                  ) : null}
-                  <span style={{ fontSize: '18px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    {stack.backend}
-                  </span>
-                </div>
-              )}
-              
-              {stack.database && (
-                <div style={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 16px',
-                  background: 'rgba(30, 30, 30, 0.8)', // Darker background
-                  borderRadius: '8px',
-                  maxWidth: '250px',
-                  border: '1px solid rgba(144, 190, 255, 0.3)',
-                }}>
-                  {getTechIconUrl(stack.database) ? (
-                    <img 
-                      src={getTechIconUrl(stack.database)} 
-                      width="24" 
-                      height="24" 
-                    />
-                  ) : null}
-                  <span style={{ fontSize: '18px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    {stack.database}
-                  </span>
-                </div>
-              )}
+              ))}
             </div>
           </div>
           

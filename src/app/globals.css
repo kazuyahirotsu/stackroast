@@ -67,3 +67,49 @@ body {
     @apply text-neutral font-medium;
   }
 }
+
+/* Subtle background texture for dark mode */
+[data-theme="dark"] body {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.03) 2%, transparent 0%),
+    radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.03) 2%, transparent 0%);
+  background-size: 100px 100px;
+}
+
+/* Fire gradient text for StackRoast title */
+.fire-gradient {
+  background: linear-gradient(90deg, #ff4d4d, #ff7e5f, #f86e40, #ff8b3d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(255, 76, 44, 0.3);
+  font-weight: bold;
+}
+
+/* Hero section fire text */
+.hero-fire-gradient {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff4d4d, #ff7e5f, #f86e40, #ff8b3d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 76, 44, 0.4);
+  letter-spacing: -0.02em;
+}
+
+/* Animation for fire text */
+@keyframes fire-flicker {
+  0%, 100% { 
+    text-shadow: 0 0 4px rgba(255, 76, 44, 0.3);
+    transform: scale(1); 
+  }
+  50% { 
+    text-shadow: 0 0 8px rgba(255, 76, 44, 0.5); 
+    transform: scale(1.01);
+  }
+}
+
+.fire-animated {
+  animation: fire-flicker 3s ease-in-out infinite;
+}

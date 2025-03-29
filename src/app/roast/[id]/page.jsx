@@ -71,6 +71,45 @@ export default async function RoastPage(props) {
   
   const stack = roast.stacks;
   
+  const CATEGORY_ORDER = [
+    'frontend',
+    'backend',
+    'database',
+    'auth',
+    'hosting',
+    'styling',
+    'misc'
+  ];
+
+  // Get ordered stack items
+  const getOrderedStackItems = (stack) => {
+    if (!stack) return [];
+    
+    // Get all items in the correct order
+    const orderedItems = [];
+    
+    // First add items in the defined order (excluding misc)
+    for (const category of CATEGORY_ORDER) {
+      if (stack[category] && typeof stack[category] === 'string' && category !== 'misc') {
+        orderedItems.push([category, stack[category]]);
+      }
+    }
+    
+    // Then add any remaining items
+    Object.entries(stack)
+      .filter(([key, value]) => 
+        value && 
+        typeof value === 'string' &&
+        !CATEGORY_ORDER.includes(key) && 
+        !['id', 'created_at', 'roast_id'].includes(key)
+      )
+      .forEach(item => orderedItems.push(item));
+    
+    return orderedItems;
+  };
+
+  const orderedStackItems = getOrderedStackItems(stack);
+  
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">
       <section className="mb-8 text-center">
@@ -98,13 +137,12 @@ export default async function RoastPage(props) {
           <h2 className="card-title mb-4">Your Tech Stack</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {Object.entries(stack)
-              .filter(([key, value]) => value && !['id', 'created_at', 'user_id', 'misc'].includes(key))
+            {orderedStackItems
+              .filter(([category]) => category !== 'misc')
               .map(([category, tech]) => (
                 <div key={category} className="bg-base-200 rounded-lg p-3">
                   <div className="flex items-center mb-2">
                     <div className="w-8 h-8 bg-base-100 rounded-full flex items-center justify-center mr-2">
-                      {/* Replace Image with TechLogo component */}
                       <TechLogo tech={tech} size={24} />
                     </div>
                     <div>
@@ -131,7 +169,7 @@ export default async function RoastPage(props) {
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
           <h2 className="card-title">Share Your Roast</h2>
-          <ShareButtons roastId={id} />
+          <ShareButtons roastId={id} stack={stack} />
           
           <div className="divider"></div>
           
