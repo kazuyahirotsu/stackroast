@@ -9,10 +9,10 @@ const MAX_MISC_LENGTH = 50; // Maximum character limit for misc field
 
 // Tech stack options for each category
 const TECH_OPTIONS = {
-  frontend: ["React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt", "jQuery", "Vanilla JS", "Remix"],
+  frontend: ["Next.js", "React", "Vue", "Angular", "Svelte", "Nuxt", "jQuery", "Vanilla JS", "Remix"],
   backend: ["Supabase", "Firebase", "Node.js", "Express", "Django", "Flask", "Ruby on Rails", "Laravel", "Spring Boot", "FastAPI", "Go"],
-  database: ["Supabase", "PostgreSQL", "MySQL", "MongoDB", "Firebase", "DynamoDB", "SQLite", "Redis", "CouchDB"],
-  auth: ["Supabase Auth", "NextAuth.js", "Firebase Auth", "OAuth", "Auth0", "Clerk", "Cognito", "Custom JWT", "Magic Link"],
+  database: ["Supabase", "Firebase", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "SQLite", "Redis", "CouchDB"],
+  auth: ["Supabase Auth", "Firebase Auth", "NextAuth.js", "OAuth", "Auth0", "Clerk", "Cognito", "Custom JWT", "Magic Link"],
   hosting: ["Vercel", "Netlify", "AWS", "GCP", "Azure", "Digital Ocean", "Heroku", "Railway", "Render"],
   styling: ["Tailwind CSS", "MUI", "Bootstrap", "CSS Modules", "Styled Components", "Emotion", "SASS/SCSS", "Chakra UI"]
 };
@@ -181,7 +181,7 @@ export default function StackForm() {
       <div className="mt-6">
         <button 
           type="submit" 
-          className="btn btn-primary w-full"
+          className="btn bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white border-none w-full disabled:opacity-50 disabled:bg-gradient-to-r disabled:from-red-400 disabled:to-orange-300 disabled:cursor-not-allowed"
           disabled={
             isSubmitting || 
             !stack.frontend || 

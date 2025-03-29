@@ -200,7 +200,7 @@ export default async function RoastPage(props) {
           <div className="divider"></div>
           
           <div className="flex justify-center">
-            <Link href="/" className="btn btn-primary">
+            <Link href="/" className="btn bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white border-none">
               Roast Another Stack
             </Link>
           </div>

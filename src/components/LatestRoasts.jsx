@@ -83,12 +83,19 @@ export async function LatestRoasts() {
                 </h3>
                 
                 <div className="mt-3 flex flex-wrap gap-1">
-                  {orderedStackItems.map(([_, tech]) => (
-                    <div key={tech} className="badge badge-ghost badge-sm gap-1">
-                      <TechLogo tech={tech} size={14} />
-                      <span className="text-xs">{tech}</span>
-                    </div>
-                  ))}
+                  {orderedStackItems.map(([category, tech]) => {
+                    if (!tech) return null;
+                    
+                    // Create a unique key by combining category and tech name
+                    const uniqueKey = `${category}-${tech}`;
+                    
+                    return (
+                      <div key={uniqueKey} className="badge badge-ghost badge-sm gap-1">
+                        <TechLogo tech={tech} size={14} />
+                        <span className="text-xs">{tech}</span>
+                      </div>
+                    );
+                  })}
                 </div>
                 
                 {roast.stacks.misc && (

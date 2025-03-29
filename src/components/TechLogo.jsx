@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import 'devicon/devicon.min.css';
 
 // Move the icon map outside the component to avoid recreating it on each render
@@ -72,21 +71,6 @@ export default function TechLogo({ tech, size = 24 }) {
     );
   } 
   
-  // Fallback to image only if no devicon is available
-  const logoPath = `/logos/${normalized}.svg`;
-  
-  return (
-    <div className={containerClass}>
-      <Image 
-        src={logoPath} 
-        alt={tech || "Technology logo"}
-        width={size}
-        height={size}
-        className="object-contain"
-        onError={(e) => {
-          e.target.style.display = 'none';
-        }}
-      />
-    </div>
-  );
+  // If no devicon is available, just return an empty container
+  return <div className={containerClass}></div>;
 } 
