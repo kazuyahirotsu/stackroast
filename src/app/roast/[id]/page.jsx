@@ -35,7 +35,7 @@ export async function generateMetadata(props) {
     const title = roast.content.split('\n')[0].replace(/^#\s+/, '');
     
     return {
-      title: `${title} | StackRoast`,
+      title: `${title} | RoastMyStack`,
       description: `Tech stack roast for ${roast.stacks.frontend}, ${roast.stacks.backend}, and ${roast.stacks.database}`,
       openGraph: {
         images: [`/api/og/roast/${id}`],

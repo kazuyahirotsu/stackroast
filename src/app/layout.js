@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "StackRoast - AI Tech Stack Critic",
+  title: "RoastMyStack - AI Tech Stack Critic",
   description: "Get your tech stack roasted by AI",
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             <div className="container mx-auto p-4 flex justify-between items-center">
               <a href="/" className="flex items-center gap-2">
                 <span className="text-2xl">🔥</span>
-                <span className="font-bold text-xl">StackRoast</span>
+                <span className="font-bold text-xl">RoastMyStack</span>
               </a>
             </div>
           </header>
@@ -55,7 +55,9 @@ export default function RootLayout({ children }) {
                   />
                 </a>
               </div>
-              <p className="text-sm text-base-content/70 mt-4">Built with Next.js, Supabase and DaisyUI</p>
+              <p className="text-sm text-base-content/70 mt-4">
+                RoastMyStack - Built with Next.js, Supabase and DaisyUI
+              </p>
 
             </div>
           </footer>

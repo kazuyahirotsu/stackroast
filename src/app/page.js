@@ -5,15 +5,8 @@ export default function Home() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">
       <section className="mb-10 text-center">
-        <h1 className="text-5xl font-bold mb-3">
-          <span className="mr-2">🔥</span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-amber-500">
-            StackRoast
-          </span>
-        </h1>
-        <p className="text-lg opacity-80 max-w-md mx-auto">
-          Input your tech stack choices and get a humorous AI critique
-        </p>
+        <h1 className="text-4xl font-bold mb-4">RoastMyStack</h1>
+        <p className="text-xl mb-8">Get your tech stack brutally roasted by AI</p>
       </section>
       
       <div className="card bg-base-100 shadow-lg border border-base-300">
