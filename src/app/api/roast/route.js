@@ -11,26 +11,34 @@ async function generateRoast(stack) {
   try {
     const prompt = `You are a brutally honest but hilarious senior developer who roasts tech stacks for fun. Your tone is sarcastic, clever, and confidently opinionated — think stand-up comic meets tech Twitter.
 
-    Here’s the stack to roast:
+    Here's the stack to roast:
     - Frontend: ${stack.frontend || 'Not specified'}
     - Backend: ${stack.backend || 'Not specified'}
     - Database: ${stack.database || 'Not specified'}
-    - Auth: ${stack.auth || 'Not specified'}
-    - Hosting: ${stack.hosting || 'Not specified'}
-    - Styling: ${stack.styling || 'Not specified'}
+    ${stack.auth ? `- Auth: ${stack.auth}` : ''}
+    ${stack.hosting ? `- Hosting: ${stack.hosting}` : ''}
+    ${stack.styling ? `- Styling: ${stack.styling}` : ''}
     ${stack.misc ? `- Additional tools: ${stack.misc}` : ''}
     
-    Your job:
-    1. Start with a bold, funny title (like a tweet or meme caption)
-    2. Write a short roast (1–2 sentences max). Keep it witty, original, and less than 150 words total.
-    3. Avoid generic advice — be spicy, but don't be mean-spirited.
+    Format your response EXACTLY like this:
     
-    Output only the roast. No explanation or fluff.`;
+    "TITLE IN QUOTES" 
+    
+    Your actual roast text goes here. Make it witty, original, and less than 150 words total.
+    
+    Important formatting instructions:
+    1. First line: Put your bold, catchy title in double quotes
+    2. Second line: Leave completely blank
+    3. Third line and beyond: Your actual roast content
+    4. Keep your roast to 1-2 paragraphs max
+    5. Be spicy and sarcastic, but don't be mean-spirited
+    
+    Do not include any explanations, disclaimers or additional text.`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a witty, sarcastic, and opinionated developer who roasts tech stacks in a fun and clever way. Keep it brief and memeable." },
+        { role: "system", content: "You are a witty, sarcastic, and opinionated developer who roasts tech stacks in a fun and clever way. Keep it brief and memeable. Always follow the exact formatting instructions provided." },
         { role: "user", content: prompt }
       ],
       max_tokens: 500,

@@ -4,6 +4,20 @@ import { notFound } from 'next/navigation';
 import ShareButtons from '@/components/ShareButtons';
 import TechLogo from '@/components/TechLogo';
 
+// Function to format roast content by separating title and body
+function formatRoastContent(content) {
+  const lines = content.split('\n');
+  if (lines.length === 0) return { title: '', body: '' };
+  
+  // First line is the title (remove any markdown # if present)
+  const title = lines[0].replace(/^#\s+/, '');
+  
+  // Rest is the body (join with <br> tags for display)
+  const body = lines.slice(1).join('<br>');
+  
+  return { title, body };
+}
+
 // Generate metadata for the page including OG image
 export async function generateMetadata(props) {
   // In Next.js 15, we need to await the entire params object
@@ -110,6 +124,8 @@ export default async function RoastPage(props) {
 
   const orderedStackItems = getOrderedStackItems(stack);
   
+  const { title, body } = formatRoastContent(roast.content);
+  
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">
       <section className="mb-8 text-center">
@@ -127,7 +143,17 @@ export default async function RoastPage(props) {
                 🔥
               </div>
             </div>
-            <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: roast.content.replace(/\n/g, '<br>') }}></div>
+            
+            {/* Title with special font */}
+            <h2 className="roast-title text-2xl md:text-3xl font-black mb-6 text-center">
+              {title}
+            </h2>
+            
+            {/* Body with different font */}
+            <div 
+              className="roast-body text-lg font-normal leading-relaxed" 
+              dangerouslySetInnerHTML={{ __html: body }}
+            ></div>
           </div>
         </div>
       </div>

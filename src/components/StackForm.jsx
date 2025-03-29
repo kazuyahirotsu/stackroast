@@ -53,6 +53,9 @@ const CATEGORY_ICONS = {
   )
 };
 
+// Define which fields are required
+const REQUIRED_FIELDS = ['frontend', 'backend', 'database'];
+
 export default function StackForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -107,6 +110,9 @@ export default function StackForm() {
               <span className="font-medium capitalize flex items-center gap-2 text-gray-200">
                 <span className="text-red-500">{CATEGORY_ICONS[category]}</span>
                 {category}
+                {REQUIRED_FIELDS.includes(category) && (
+                  <span className="text-red-500 ml-0.5">*</span>
+                )}
               </span>
             </label>
             <TechSelector 
@@ -114,6 +120,7 @@ export default function StackForm() {
               value={stack[category]}
               onChange={(value) => handleChange(category, value)} 
               allowCustom
+              required={REQUIRED_FIELDS.includes(category)}
             />
           </div>
         ))}
@@ -123,7 +130,7 @@ export default function StackForm() {
         <label className="label">
           <span className="font-medium flex items-center gap-2 text-gray-200">
             <span className="text-red-500">{CATEGORY_ICONS.misc}</span>
-            Additional Tools (optional)
+            Additional Tools
           </span>
         </label>
         <input
@@ -135,24 +142,23 @@ export default function StackForm() {
         />
       </div>
       
-      <div className="card bg-base-200 p-4 shadow-sm mt-6">
-        <p className="text-sm mb-2">Ready to have your tech choices roasted? Our AI will analyze your stack for questionable decisions and potential issues.</p>
-        <div className="text-xs opacity-70 mb-4">*For optimal roasting, please fill at least the Frontend, Backend, and Database fields.</div>
-        
-        <div className="card-actions justify-end">
-          <button 
-            type="submit" 
-            className="btn bg-red-600 hover:bg-red-700 text-white border-none"
-            disabled={isSubmitting || !stack.frontend || !stack.backend || !stack.database}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="loading loading-spinner loading-sm"></span>
-                Roasting...
-              </>
-            ) : '🔥 Roast My Stack'}
-          </button>
-        </div>
+      <div className="mt-6">
+        <button 
+          type="submit" 
+          className="btn btn-primary w-full"
+          disabled={isSubmitting || !stack.frontend || !stack.backend || !stack.database}
+        >
+          {isSubmitting ? (
+            <>
+              <span className="loading loading-spinner loading-sm mr-2"></span>
+              Roasting...
+            </>
+          ) : (
+            <>
+              🔥 Roast My Stack
+            </>
+          )}
+        </button>
       </div>
     </form>
   );
