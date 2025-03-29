@@ -91,8 +91,7 @@ export default function ShareButtons({ roastId, stack }) {
   return (
     <div className="flex flex-col gap-4">
       {/* OG Image Preview - now with smaller size on desktop */}
-      <div className="mb-4">
-        <div className="text-sm font-medium mb-2">Preview Card:</div>
+      <div className="mb-4 mt-4">
         <div className="mx-auto bg-base-200 rounded-lg overflow-hidden max-w-md w-full">
           <div className="relative w-full h-0" style={{ paddingBottom: '52.5%' }}>
             <Image

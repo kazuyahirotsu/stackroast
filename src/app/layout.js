@@ -15,8 +15,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "RoastMyStack - AI Tech Stack Critic",
-  description: "Get your tech stack roasted by AI",
+  title: "RoastMyStack - Get Your Tech Stack Roasted by AI",
+  description: "Submit your tech stack choices and get a brutally honest but humorous AI roast of your technology decisions.",
+  openGraph: {
+    title: "RoastMyStack - Get Your Tech Stack Roasted by AI",
+    description: "Submit your tech stack choices and get a brutally honest but humorous AI roast of your technology decisions.",
+    type: "website",
+    url: "https://roastmystack.vercel.app",
+    images: [
+      {
+        url: "/api/og/home",
+        width: 1200,
+        height: 630,
+        alt: "RoastMyStack - Get Your Tech Stack Roasted by AI",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RoastMyStack - Get Your Tech Stack Roasted by AI",
+    description: "Submit your tech stack choices and get a brutally honest but humorous AI roast of your technology decisions.",
+    images: ["/api/og/home"],
+  },
 };
 
 export default function RootLayout({ children }) {

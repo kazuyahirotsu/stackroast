@@ -52,7 +52,7 @@ const TECH_ICON_URLS = {
   'heroku': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg',
   
   // Styling
-  'tailwindcss': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg',
+  'tailwindcss': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
   'bootstrap': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg',
   'sass': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg',
   'mui': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg',
@@ -259,14 +259,20 @@ export async function GET(request, props) {
             justifyContent: 'space-between',
             alignItems: 'center',
             marginTop: '30px',
-            fontSize: '18px',
+            fontSize: '22px',
           }}>
-            <span style={{ opacity: 0.8 }}>Brutal tech stack criticism by AI</span>
+            <span style={{ 
+              opacity: 0.9,
+              fontWeight: '500'
+            }}>
+              Brutal tech stack criticism by AI
+            </span>
             <span style={{ 
               fontWeight: 'bold',
               color: '#ff6b6b',
+              fontSize: '24px',
             }}>
-              stackroast.vercel.app
+              roastmystack.vercel.app
             </span>
           </div>
         </div>

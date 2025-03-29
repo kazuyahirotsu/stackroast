@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TechSelector from "./TechSelector";
+
+// Constants
+const MAX_MISC_LENGTH = 50; // Maximum character limit for misc field
 
 // Tech stack options for each category
 const TECH_OPTIONS = {
   frontend: ["React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt", "jQuery", "Vanilla JS", "Remix"],
-  backend: ["Node.js", "Express", "Django", "Flask", "Ruby on Rails", "Laravel", "Spring Boot", "FastAPI", "Go"],
+  backend: ["Supabase", "Firebase", "Node.js", "Express", "Django", "Flask", "Ruby on Rails", "Laravel", "Spring Boot", "FastAPI", "Go"],
   database: ["Supabase", "PostgreSQL", "MySQL", "MongoDB", "Firebase", "DynamoDB", "SQLite", "Redis", "CouchDB"],
   auth: ["Supabase Auth", "NextAuth.js", "Firebase Auth", "OAuth", "Auth0", "Clerk", "Cognito", "Custom JWT", "Magic Link"],
   hosting: ["Vercel", "Netlify", "AWS", "GCP", "Azure", "Digital Ocean", "Heroku", "Railway", "Render"],
@@ -54,11 +57,13 @@ const CATEGORY_ICONS = {
 };
 
 // Define which fields are required
-const REQUIRED_FIELDS = ['frontend', 'backend', 'database'];
+const REQUIRED_FIELDS = ['frontend', 'backend'];
 
 export default function StackForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [charCount, setCharCount] = useState(0);
   const [stack, setStack] = useState({
     frontend: "",
     backend: "",
@@ -69,9 +74,22 @@ export default function StackForm() {
     misc: ""
   });
 
+  // Update character count whenever misc changes
+  useEffect(() => {
+    setCharCount(stack.misc.length);
+  }, [stack.misc]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate additional tools text
+    if (stack.misc.length > MAX_MISC_LENGTH) {
+      setError(`Additional tools text exceeds maximum length of ${MAX_MISC_LENGTH} characters.`);
+      return;
+    }
+    
     setIsSubmitting(true);
+    setError("");
     
     try {
       const response = await fetch('/api/roast', {
@@ -98,11 +116,23 @@ export default function StackForm() {
   };
 
   const handleChange = (category, value) => {
+    if (category === 'misc') {
+      // Sanitize the misc input - remove problematic characters
+      value = value.replace(/["\\]/g, ''); // Remove quotes and backslashes
+    }
+    
     setStack(prev => ({ ...prev, [category]: value }));
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Display error message if any */}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500 text-red-600 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {Object.entries(TECH_OPTIONS).map(([category, options]) => (
           <div key={category} className="form-control">
@@ -133,20 +163,31 @@ export default function StackForm() {
             Additional Tools
           </span>
         </label>
-        <input
-          type="text"
-          placeholder="Other libraries, tools, or quirky tech choices..."
-          className="input input-bordered w-full"
-          value={stack.misc}
-          onChange={(e) => handleChange('misc', e.target.value)}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Other libraries, tools, or quirky tech choices..."
+            className={`input input-bordered w-full ${charCount > MAX_MISC_LENGTH ? 'border-red-500' : ''}`}
+            value={stack.misc}
+            onChange={(e) => handleChange('misc', e.target.value)}
+            maxLength={MAX_MISC_LENGTH + 10} // Allow typing a bit over to show the error
+          />
+          <div className={`text-xs mt-1 text-right ${charCount > MAX_MISC_LENGTH ? 'text-red-500' : 'text-gray-400'}`}>
+            {charCount}/{MAX_MISC_LENGTH}
+          </div>
+        </div>
       </div>
       
       <div className="mt-6">
         <button 
           type="submit" 
           className="btn btn-primary w-full"
-          disabled={isSubmitting || !stack.frontend || !stack.backend || !stack.database}
+          disabled={
+            isSubmitting || 
+            !stack.frontend || 
+            !stack.backend || 
+            charCount > MAX_MISC_LENGTH
+          }
         >
           {isSubmitting ? (
             <>

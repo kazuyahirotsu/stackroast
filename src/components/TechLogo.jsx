@@ -40,7 +40,7 @@ const ICON_MAP = {
   'firebase': 'devicon-firebase-plain',
   'sqlite': 'devicon-sqlite-plain',
   'redis': 'devicon-redis-plain',
-  'tailwindcss': 'devicon-tailwindcss-plain',
+  'tailwindcss': 'devicon-tailwindcss-original',
   'bootstrap': 'devicon-bootstrap-plain',
   'sass': 'devicon-sass-original',
   'vercel': 'devicon-vercel-original',

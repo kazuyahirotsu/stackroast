@@ -14,7 +14,7 @@ async function generateRoast(stack) {
     Here's the stack to roast:
     - Frontend: ${stack.frontend || 'Not specified'}
     - Backend: ${stack.backend || 'Not specified'}
-    - Database: ${stack.database || 'Not specified'}
+    ${stack.database ? `- Database: ${stack.database}` : ''}
     ${stack.auth ? `- Auth: ${stack.auth}` : ''}
     ${stack.hosting ? `- Hosting: ${stack.hosting}` : ''}
     ${stack.styling ? `- Styling: ${stack.styling}` : ''}
@@ -29,9 +29,10 @@ async function generateRoast(stack) {
     Important formatting instructions:
     1. First line: Put your bold, catchy title in double quotes
     2. Second line: Leave completely blank
-    3. Third line and beyond: Your actual roast content
-    4. Keep your roast to 1-2 paragraphs max
-    5. Be spicy and sarcastic, but don't be mean-spirited
+    3. Third line: A one-liner comment about the overall stack — witty, sarcastic, and opinionated
+    4. Fourth line and beyond: Your actual roast content
+    5. Keep your roast to 1-2 paragraphs max
+    6. Be spicy and sarcastic, but don't be mean-spirited
     
     Do not include any explanations, disclaimers or additional text.`;
 
