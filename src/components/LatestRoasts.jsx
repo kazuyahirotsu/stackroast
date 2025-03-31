@@ -2,6 +2,10 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import TechLogo from './TechLogo';
 
+// Add this export to prevent caching of this component
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Don't cache this data
+
 // Define ordered categories for consistent display
 const CATEGORY_ORDER = [
   'frontend',
@@ -14,12 +18,16 @@ const CATEGORY_ORDER = [
 ];
 
 export async function LatestRoasts() {
+  // Fetch with a timestamp parameter to avoid caching
+  const timestamp = new Date().getTime();
+  
   const { data: roasts, error } = await supabase
     .from('roasts')
     .select('id, created_at, content, stacks(*)')
     .eq('is_public', true)
     .order('created_at', { ascending: false })
-    .limit(3);
+    .limit(3)
+    .throwOnError();
   
   if (error || !roasts || roasts.length === 0) {
     return null;

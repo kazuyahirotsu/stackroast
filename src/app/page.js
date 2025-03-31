@@ -1,6 +1,9 @@
 import StackForm from "@/components/StackForm";
 import { LatestRoasts } from "@/components/LatestRoasts";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function Home() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">
