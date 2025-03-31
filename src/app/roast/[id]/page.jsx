@@ -34,7 +34,7 @@ export async function generateMetadata(props) {
   try {
     const { data: roast } = await supabase
       .from('roasts')
-      .select('content, stacks(frontend, backend, database)')
+      .select('content, stacks(frontend, backend, database, auth, hosting, styling)')
       .eq('id', id)
       .single();
 
@@ -46,13 +46,48 @@ export async function generateMetadata(props) {
     }
 
     // Extract first line as title
-    const title = roast.content.split('\n')[0].replace(/^#\s+/, '');
+    const title = roast.content.split('\n')[0].replace(/^#\s+/, '').replace(/"/g, '');
+    
+    // Build tech stack description with available technologies
+    const stackParts = [];
+    if (roast.stacks.frontend) stackParts.push(roast.stacks.frontend);
+    if (roast.stacks.backend) stackParts.push(roast.stacks.backend);
+    if (roast.stacks.database) stackParts.push(roast.stacks.database);
+    
+    const stackDescription = stackParts.join(', ');
+    const description = `Tech stack roast for ${stackDescription}`;
+    
+    // Get the absolute URL for the OG image
+    const baseUrl = process.env.VERCEL_URL ? 
+      `https://${process.env.VERCEL_URL}` : 
+      'https://roastmystack.vercel.app';
+    
+    const ogImageUrl = `${baseUrl}/api/og/roast/${id}`;
     
     return {
       title: `${title} | RoastMyStack`,
-      description: `Tech stack roast for ${roast.stacks.frontend}, ${roast.stacks.backend}, and ${roast.stacks.database}`,
+      description: description,
       openGraph: {
-        images: [`/api/og/roast/${id}`],
+        title: `${title} | RoastMyStack`,
+        description: description,
+        url: `${baseUrl}/roast/${id}`,
+        siteName: 'RoastMyStack',
+        locale: 'en_US',
+        type: 'website',
+        images: [
+          {
+            url: ogImageUrl,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${title} | RoastMyStack`,
+        description: description,
+        images: [ogImageUrl],
       },
     };
   } catch (error) {
