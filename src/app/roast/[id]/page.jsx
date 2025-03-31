@@ -84,7 +84,7 @@ export async function generateMetadata(props) {
         card: 'summary_large_image',
         title: `${title} | RoastMyStack`,
         description: description,
-        images: [absoluteOgImageUrl],
+        images: [`https://roastmystack.vercel.app/api/og/roast/${id}`],
       },
     };
   } catch (error) {
