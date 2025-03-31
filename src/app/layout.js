@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://roastmystack.vercel.app'),
   title: "RoastMyStack - Get Your Tech Stack Roasted by AI",
   description: "Submit your tech stack choices and get a brutally honest but humorous AI roast of your technology decisions.",
   openGraph: {

@@ -57,26 +57,23 @@ export async function generateMetadata(props) {
     const stackDescription = stackParts.join(', ');
     const description = `Tech stack roast for ${stackDescription}`;
     
-    // Get the absolute URL for the OG image
-    const baseUrl = process.env.VERCEL_URL ? 
-      `https://${process.env.VERCEL_URL}` : 
-      'https://roastmystack.vercel.app';
-    
-    const ogImageUrl = `${baseUrl}/api/og/roast/${id}`;
+    // Absolute URL without relying on environment variables
+    const absoluteOgImageUrl = `https://roastmystack.vercel.app/api/og/roast/${id}`;
     
     return {
+      metadataBase: new URL('https://roastmystack.vercel.app'),
       title: `${title} | RoastMyStack`,
       description: description,
       openGraph: {
         title: `${title} | RoastMyStack`,
         description: description,
-        url: `${baseUrl}/roast/${id}`,
+        url: `https://roastmystack.vercel.app/roast/${id}`,
         siteName: 'RoastMyStack',
         locale: 'en_US',
         type: 'website',
         images: [
           {
-            url: ogImageUrl,
+            url: absoluteOgImageUrl,
             width: 1200,
             height: 630,
             alt: title,
@@ -87,7 +84,7 @@ export async function generateMetadata(props) {
         card: 'summary_large_image',
         title: `${title} | RoastMyStack`,
         description: description,
-        images: [ogImageUrl],
+        images: [absoluteOgImageUrl],
       },
     };
   } catch (error) {
